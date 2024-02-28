@@ -192,7 +192,7 @@ class UserApiTestCases(TestCase):
         response = self.client.post(reverse('logout'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {"error": "No user logged in"})
+        self.assertEqual(response.data, {"message": "No user logged in"})
 
 
     

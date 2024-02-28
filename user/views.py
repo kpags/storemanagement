@@ -12,6 +12,9 @@ import jwt, datetime
 def getUsers(request):
     token = request.COOKIES.get('jwt')
     
+    if not token:
+        return Response({"message": "No users logged in"})
+    
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         currentUser = User.objects.filter(id=payload['id']).first()
@@ -30,6 +33,9 @@ def getUsers(request):
 @api_view(['POST'])
 def addUser(request):
     token = request.COOKIES.get('jwt')
+
+    if not token:
+        return Response({"message": "No users logged in"})
     
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -48,6 +54,9 @@ def addUser(request):
 @api_view(['PUT'])
 def updateUser(request, id):
     token = request.COOKIES.get('jwt')
+
+    if not token:
+        return Response({"message": "No users logged in"})
 
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -68,6 +77,9 @@ def updateUser(request, id):
 @api_view(['DELETE'])
 def deleteUser(request, id):
     token = request.COOKIES.get('jwt')
+
+    if not token:
+        return Response({"message": "No users logged in"})
 
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -102,7 +114,7 @@ def logout(request):
     token = request.COOKIES.get('jwt')
 
     if not token:
-        return Response({"error": "No user logged in"})
+        return Response({"message": "No user logged in"})
 
     response = Response()
     response.delete_cookie('jwt')
@@ -115,6 +127,9 @@ def logout(request):
 @api_view(['GET'])
 def getJWT(request):
     token = request.COOKIES.get('jwt')
+
+    if not token:
+        return Response({"message": "No users logged in"})
 
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])

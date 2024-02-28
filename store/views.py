@@ -12,6 +12,9 @@ import jwt, datetime, time
 def getStores(request):
     token = request.COOKIES.get('jwt')
 
+    if not token:
+        return Response({"message": "No users logged in"})
+
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
@@ -31,6 +34,9 @@ def getStores(request):
 def getUserStores(request):
     token = request.COOKIES.get('jwt')
 
+    if not token:
+        return Response({"message": "No users logged in"})
+        
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
@@ -47,6 +53,9 @@ def getUserStores(request):
 @api_view(['GET'])
 def getStoreDetails(request, id):
     token = request.COOKIES.get('jwt')
+
+    if not token:
+        return Response({"message": "No users logged in"})
 
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -73,6 +82,9 @@ def getStoreDetails(request, id):
 def addStore(request):
     token = request.COOKIES.get('jwt')
 
+    if not token:
+        return Response({"message": "No users logged in"})
+    
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         user = User.objects.filter(id=payload['id']).first()
@@ -87,6 +99,9 @@ def addStore(request):
 @api_view(['PUT'])
 def updateStore(request, id):
     token = request.COOKIES.get('jwt')
+    
+    if not token:
+        return Response({"message": "No users logged in"})
     
     try:
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
@@ -112,6 +127,9 @@ def updateStore(request, id):
 @api_view(['DELETE'])
 def deleteStore(request, id):
     token = request.COOKIES.get('jwt')
+    
+    if not token:
+        return Response({"message": "No users logged in"})
     
     try:    
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
